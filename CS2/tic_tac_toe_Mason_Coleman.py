@@ -20,6 +20,12 @@ import random
 
 
 def display_board(board):
+    print("  1   2   3")    
+    print("""1
+
+             2
+
+             3   """)
     for i in range(3):
         print(f" {board[i][0]} | {board[i][1]} | {board[i][2]} ") 
         if i < 2:
@@ -42,36 +48,120 @@ def has_won(board, player):
         return True
     if board[0][2] == player and board[1][1] == player and board[2][0] == player:
         return True
-    return None
+    return False
 
 def is_draw(board):
-    count = 0 
-    for row in board: 
-        for cell in row:  
-            if cell == " ":
+    count = 0
+    for row in range(3):
+        for col in range(3):
+            if board[row][col] == " ":
                 count += 1
     
-    if count == 9 and has_won(board) is None:
+    if count == 0 and check_winner(board) is None:
         return True
     else:
-        False 
+        return False
 
-
+def check_winner(board):                          
+    if has_won(board, "X"):                       
+        return "X"
+    if has_won(board, "O"):                       
+        return "O"
+    return None        
 
           
 def first_player():
     player_1 = input("What is your name player 1: ").strip()
     player_2 = input("What is your name player 2: ").strip()
     names = (player_1, player_2)
-    random.choice(names)
+    first = random.choice(names)
+    if first == player_1:
+        second = player_2
+    else:
+        second = player_1
+    return first, second
 
+def get_player_move(board, player):
+    while True:
+        try:
+            row = int(input(f"{player}, enter row (1-3): "))
+            col = int(input(f"{player}, enter column (1-3): "))
+        except ValueError:
+            print("Numbers only")
+            continue
 
-def main():
-	board = [
-			 [" "," "," "],
-	         [" "," "," "],
-	         [" "," "," "]
-	]
+        if row < 1 or row > 3 or col < 1 or col > 3:
+            print("Must be between 1 and 3")
+            continue
+
+        row = row - 1
+        col = col - 1
+
+        if board[row][col] != " ":
+            print("That spot is taken")
+            continue
+
+        return row, col
+
+def play_again():
+    again = input("Do you want to play again (Yes/No)?: ").upper().strip()
+    if again == "YES":
+        play_game()
+    if again == "NO":
+        quit 
+    else: 
+        print("Please enter either Y or N")
+        play_again()
+    
+def play_game():
+    board = [
+        [" ", " ", " "],
+        [" ", " ", " "],
+        [" ", " ", " "]
+    ]
+
+    first, second = first_player()
+    print(first, "goes first, then", second)
+
+    while True:
+        first_mark = input(first + ", do you want X or O? ").strip().upper()
+        if first_mark == "X" or first_mark == "O":
+            break
+        print("Please type X or O.")
+
+    if first_mark == "X":
+        second_mark = "O"
+    else:
+        second_mark = "X"
+
+    players = {first_mark: first, second_mark: second}
+    current = first_mark  
+
+    while True:
+        display_board(board)
+        print(players[current] + "'s turn (" + current + ")")
+        row, col = get_player_move(board, current)
+        board[row][col] = current
+
+        winner = check_winner(board)
+        if winner is not None:
+            display_board(board)
+            print(players[winner], "wins!")
+            play_again()
+            
+
+        if is_draw(board):
+            display_board(board)
+            print("It's a draw!")
+            play_again()
+
+        if current == "X":
+            current = "O"
+        else:
+            current = "X"
+
+if __name__ == "__main__":
+    play_game()
 	display_board(board)
 
 	
