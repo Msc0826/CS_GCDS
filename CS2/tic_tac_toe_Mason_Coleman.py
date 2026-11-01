@@ -1,37 +1,36 @@
-#plan work, work plan
-'''
-step 1. create a 3x3 grid (3 rows, 3 columns) - 2d
-step 2. 2 human players - 
-step 3. determine who goes first - make it random 
-step 4. let player 1 choose if their x or o 
-step 5. ask player 1 where they want to go
-step 6. have player 1 enter row and col or name each box (box 1 (top left)) 
-step 7. check if someone has already played in that spot (check everytime)
-step 8. check if someone won - if grid [0][0] == 'x' and grid[0][1] = 'x' and grid[0][2] == 'x' 
-	you also have to check if someone won any other ways (8 ways to win) 
-step 10. check for a tie 
-step 11. ask player 2 their choice
-step 12. check if someone played in that box they choose etc etc 
-step 13. if someone wins ask if they want to play again
-step 14. if no, quit
-step 15. if yes, clear board 
-'''
+"""
+Name: Mason Coleman
+Description: A tic-tac-toe game for two players where you pick a spot by row and column
+Bugs: None that I know of
+Bonus: None
+Date: 10/26/26
+Log: Initial Creation: 10/13/26
+     10/14/26 Finished display board, win check, and draw check
+     10/19/26 Finished first player picker and tested functions
+     10/21/26 Finished get player move 
+     10/26/26 Added play again and full documentation to all functions
+"""
 import random
 
 
 def display_board(board):
-    print("  1   2   3")    
-    print("""1
+    """Print the board with row and column labels
 
-             2
-
-             3   """)
+    Args: board - the 3x3 list
+    Returns: nothing
+    """
+    print("    1   2   3")
     for i in range(3):
-        print(f" {board[i][0]} | {board[i][1]} | {board[i][2]} ") 
+        print(f"{i + 1}   {board[i][0]} | {board[i][1]} | {board[i][2]}")
         if i < 2:
-            print("---+---+---")
+            print("   ---+---+---")
 
 def has_won(board, player):
+    """Check if one player has three in a row.
+
+    Args: board - the 3x3 list of lists, player - "X" or "O"
+    Returns: True if that player won, otherwise False
+    """
     if board[0][0] == player and board[0][1] == player and board[0][2] == player:
         return True
     if board[1][0] == player and board[1][1] == player and board[1][2] == player:
@@ -50,27 +49,44 @@ def has_won(board, player):
         return True
     return False
 
+
+def check_winner(board):
+    """Find out who won, if anyone
+
+    Args: board - the 3x3 list
+    Returns: "X", "O", or None if nobody has won
+    """
+    if has_won(board, "X"):
+        return "X"
+    if has_won(board, "O"):
+        return "O"
+    return None
+
+
 def is_draw(board):
+    """Check if the game is a draw
+
+    Args: board - the 3x3 list 
+    Returns: True if the board is full and nobody won, otherwise False
+    """
     count = 0
     for row in range(3):
         for col in range(3):
             if board[row][col] == " ":
                 count += 1
-    
+
     if count == 0 and check_winner(board) is None:
         return True
     else:
         return False
 
-def check_winner(board):                          
-    if has_won(board, "X"):                       
-        return "X"
-    if has_won(board, "O"):                       
-        return "O"
-    return None        
 
-          
 def first_player():
+    """Ask for both names and randomly pick who goes first
+
+    Args: none
+    Returns: the first player's name, then the second player's name
+    """
     player_1 = input("What is your name player 1: ").strip()
     player_2 = input("What is your name player 2: ").strip()
     names = (player_1, player_2)
@@ -81,7 +97,13 @@ def first_player():
         second = player_1
     return first, second
 
+
 def get_player_move(board, player):
+    """Ask for a row and column until the move is valid
+
+    Args: board - the 3x3 list, player - "X" or "O"
+    Returns: row and column as board indexes (0 to 2)
+    """
     while True:
         try:
             row = int(input(f"{player}, enter row (1-3): "))
@@ -103,66 +125,69 @@ def get_player_move(board, player):
 
         return row, col
 
-def play_again():
-    again = input("Do you want to play again (Yes/No)?: ").upper().strip()
-    if again == "YES":
-        play_game()
-    if again == "NO":
-        quit 
-    else: 
-        print("Please enter either Y or N")
-        play_again()
-    
-def play_game():
-    board = [
-        [" ", " ", " "],
-        [" ", " ", " "],
-        [" ", " ", " "]
-    ]
 
+def play_again():
+    """Ask if the players want another game
+
+    Args: none
+    Returns: True for yes, False for no
+    """
+    while True:
+        again = input("Play again? (yes/no): ").strip().lower()
+        if again == "yes":
+            return True
+        if again == "no":
+            return False
+        print("Please enter yes or no")
+
+
+def play_game():
+    """Run the game, including restarting the game 
+
+    Args: none
+    Returns: nothing
+    """
     first, second = first_player()
     print(first, "goes first, then", second)
 
     while True:
-        first_mark = input(first + ", do you want X or O? ").strip().upper()
-        if first_mark == "X" or first_mark == "O":
-            break
-        print("Please type X or O.")
+        board = [
+            [" ", " ", " "],
+            [" ", " ", " "],
+            [" ", " ", " "]
+        ]
+        current = "X"
+        current_name = first
 
-    if first_mark == "X":
-        second_mark = "O"
-    else:
-        second_mark = "X"
-
-    players = {first_mark: first, second_mark: second}
-    current = first_mark  
-
-    while True:
-        display_board(board)
-        print(players[current] + "'s turn (" + current + ")")
-        row, col = get_player_move(board, current)
-        board[row][col] = current
-
-        winner = check_winner(board)
-        if winner is not None:
+        while True:
             display_board(board)
-            print(players[winner], "wins!")
-            play_again()
-            
+            print(current_name, "turn:", current)
+            row, col = get_player_move(board, current)
+            board[row][col] = current
 
-        if is_draw(board):
-            display_board(board)
-            print("It's a draw!")
-            play_again()
+            if check_winner(board) is not None:
+                display_board(board)
+                print(current_name, "wins!")
+                if play_again() == False:
+                    return
+                break
 
-        if current == "X":
-            current = "O"
-        else:
-            current = "X"
+            if is_draw(board):
+                display_board(board)
+                print("It's a draw!")
+                if play_again() == False:
+                    return
+                break
+
+            if current == "X":
+                current = "O"
+                current_name = second
+            else:
+                current = "X"
+                current_name = first
+
+
+
 
 if __name__ == "__main__":
     play_game()
-	display_board(board)
-
-	
-main()
