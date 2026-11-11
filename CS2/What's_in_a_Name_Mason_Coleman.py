@@ -1,10 +1,8 @@
 
 """
 Name: Mason Coleman
-Description: Asks the user for their name and gives them a menu of things
-             to do with it, like reversing it, counting the vowels, or
-             pulling out the first and last name.
-Bugs: If you don't type a middle name, option 6 just prints a blank line.
+Description: Asks the user for their name and gives them a menu of things to do with it, like reversing it, counting the vowels, or pulling out the first and last name.
+Bugs: Have to run without debugging in order for it to play
 Bonus: Menu, initials, title check, scramble
 Date: 9/24/26
 Log: Initial Creation: 9/10/26
@@ -18,23 +16,25 @@ Log: Initial Creation: 9/10/26
 import random
  
 def reverse_display(chars):
-    """Reverse a name.
+    """
+    Description: Reverse a name 
     Args:
         chars: a list of single characters, or a string
     Returns:
         str: the characters in reverse order
     """
-    result = ""
-    i = len(chars) - 1
+    result = ""    
+    i = len(chars) - 1   # start at the last index (0)
 
     while i >= 0:
-        result = result + chars[i]
+        result = result + chars[i] #add the current charcter to the new name 
         i = i - 1
     return result
  
  
 def count_vowels(chars):
-    """Count the vowels in a name.
+    """
+    Description: Count the vowels in a name.
     Args:
         chars: a list of single characters, or a string
     Returns:
@@ -42,29 +42,31 @@ def count_vowels(chars):
     """
     count = 0
  
-    for i in range(len(chars)):
-        if chars[i] in "AEIOUaeiou":
-            count = count + 1
+    for i in range(len(chars)): #cycle through every character in the string 
+        if chars[i] in "AEIOUaeiou":  #if a character is a vowel
+            count = count + 1  #add to count if there is a vowel
     return count
  
  
 def consonant_frequency(chars):
-    """Count the consonants in a name.
+    """
+    Description: Count the consonants in a name.
     Args:
         chars: a list of single characters, or a string
     Returns:
         int: how many consonants were found
     """
-    count = 0
+    count = 0 
 
-    for i in range(len(chars)):
-        if chars[i] in "BCDFGHJKLMNPQRSTVWXZbcdfghjklmnpqrstvwxz":
-            count = count + 1
+    for i in range(len(chars)):   #cycle through every character in the string
+        if chars[i] in "BCDFGHJKLMNPQRSTVWXZbcdfghjklmnpqrstvwxz":  #if a character is a consonant 
+            count = count + 1   #add one to count 
     return count
  
  
 def display_firstname(name):
-    """Return the first name.
+    """
+    Description: Return the first name.
     Args:
         name (str): the full name
     Returns:
@@ -72,25 +74,27 @@ def display_firstname(name):
     """
     parts = []
  
-    parts = name.split()
-    return parts[0]
+    parts = name.split() #split the given full name into a list 
+    return parts[0]   #return the first word in the list 
  
  
 def display_lastname(name):
-    """Return the last name.
+    """
+    Description: Return the last name.
     Args:
         name (str): the full name
     Returns:
         str: the final word of the name
     """
-    parts = []
+    parts = [] 
  
-    parts = name.split()
-    return parts[len(parts) - 1]
+    parts = name.split()   #split the given full name into a list 
+    return parts[len(parts) - 1] #return the last word in the list 
  
  
 def display_middlename(name):
-    """Return every middle name.
+    """
+    Description: Return every middle name.
     Args:
         name (str): the full name
     Returns:
@@ -99,14 +103,15 @@ def display_middlename(name):
     parts = []
     result = ""
  
-    parts = name.split()
-    for i in range(1, len(parts) - 1):
-        result = result + parts[i] + " "
-    return result
+    parts = name.split() 
+    for i in range(1, len(parts) - 1):  #skip the first and last word of the list 
+        result = result + parts[i] + " " #each middle word plus a space 
+        return result   #return middle words 
  
  
 def hyphen_return(name):
-    """Check whether the last name contains a hyphen.
+    """
+    Description: Check whether the last name contains a hyphen.
     Args:
         name (str): the full name
     Returns:
@@ -114,15 +119,16 @@ def hyphen_return(name):
     """
     last = ""
  
-    last = display_lastname(name)
-    for i in range(len(last)):
-        if last[i] == "-":
-            return True
-    return False
+    last = display_lastname(name) #use last name function to get the last name 
+    for i in range(len(last)): #cycle through every character in the last name 
+        if last[i] == "-":  #if a character is a hyphen 
+            return True #return that there is a hyphen
+    return False #if not return false 
  
  
 def convert_lowercase(chars):
-    """Convert a name to lowercase without using string methods.
+    """
+    Description: Convert a name to lowercase without using string methods.
     Args:
         chars: a list of single characters, or a string
     Returns:
@@ -131,32 +137,34 @@ def convert_lowercase(chars):
     new_name = ""
  
     for i in range(len(chars)):
-        if chars[i] in "ABCDEFGHIJKLMNOPQRSTUVWXYZ":
-            new_name = new_name + chr(ord(chars[i]) + 32)
+        if chars[i] in "ABCDEFGHIJKLMNOPQRSTUVWXYZ":  #change only the uppercase letters 
+            new_name = new_name + chr(ord(chars[i]) + 32) #ord gives the number that matches the letter, adding 32 changes it to lowercase, and chr turns it back to a letter 
         else:
-            new_name = new_name + chars[i]
+            new_name = new_name + chars[i] #if not uppercase, leave alone 
     return new_name
  
  
 def convert_uppercase(chars):
-    """Convert a name to uppercase without using string methods.
+    """
+    Description: Convert a name to uppercase without using string methods.
     Args:
         chars: a list of single characters, or a string
     Returns:
         str: the uppercase version of the name
     """
     new_name = ""
- 
+  
     for i in range(len(chars)):
-        if chars[i] in "abcdefghijklmnopqrstuvwxyz":
-            new_name = new_name + chr(ord(chars[i]) - 32)
+        if chars[i] in "abcdefghijklmnopqrstuvwxyz": #change only lowercase letters
+            new_name = new_name + chr(ord(chars[i]) - 32)  #subtracting 32 turns the letter to uppercase 
         else:
             new_name = new_name + chars[i]
     return new_name
  
  
 def palindrome_checker(name):
-    """Check whether the first name reads the same backward.
+    """
+    Description: Check whether the first name reads the same backward.
     Args:
         name (str): the full name
     Returns:
@@ -165,16 +173,17 @@ def palindrome_checker(name):
     first = ""
     lower = ""
  
-    first = display_firstname(name)
-    lower = convert_lowercase(first)
-    if lower == reverse_display(lower):
-        return True
+    first = display_firstname(name) #gets first name 
+    lower = convert_lowercase(first)   #makes the first name fully lowercase 
+    if lower == reverse_display(lower):  #if the first name is the same as a the reversed name 
+        return True  #return that it is a palindrome 
     else:
         return False
  
  
 def mix_up(chars):
-    """Scramble the letters of a name into a random order.
+    """
+    Description: Scramble the letters of a name into a random order.
     Args:
         chars: a list of single characters
     Returns:
@@ -182,31 +191,33 @@ def mix_up(chars):
     """
     mixed = []
     result = ""
-    mixed = list(chars)
-    random.shuffle(mixed)
+    mixed = list(chars) #turns all letters/characters in the string into seperate characters in a list 
+    random.shuffle(mixed) #randomly reorders the list 
     for i in range(len(mixed)):
-        result = result + mixed[i]
+        result = result + mixed[i]  #rebuild the shuffled list into a string 
     return result
  
  
 def make_initials(name):
-    """Build the initials of a name.
+    """
+    Description: Build the initials of a name.
     Args:
         name (str): the full name
     Returns:
-        str: the initials, such as M.R.C.
+        str: the initials, such as M.S.C.
     """
     parts = []
     result = ""
  
-    parts = name.split()
-    for i in range(len(parts)):
-        result = result + parts[i][0] + "."
+    parts = name.split() 
+    for i in range(len(parts)): 
+        result = result + parts[i][0] + "." #takes the first letter of each word in the list and adds a period 
     return result
  
  
 def has_title(name):
-    """Check whether a name contains a title or distinction.
+    """
+    Description: Check whether a name contains a title or distinction.
     Args:
         name (str): the full name
     Returns:
@@ -216,14 +227,15 @@ def has_title(name):
  
     parts = name.split()
     for i in range(len(parts)):
-        if parts[i] in ("Dr.", "Dr", "Sir", "Esq.", "Esq", "Ph.D.", "Ph.D",
-                        "Ph.d", "PhD", "Mr.", "Mr", "Mrs.", "Mrs", "Ms.", "Ms"):
+        if parts[i] in ("Dr.", "Dr", "Sir", "Esq.", "Esq", "Ph.D.", "Ph.D",    #checks if each word in the list has a title 
+                        "Ph.d", "PhD", "Mr.", "Mr", "Mrs.", "Mrs", "Ms.", "Ms"): 
             return True
     return False
  
  
 def main():
-    """Run the program.
+    """
+    Description: Run the program.
     Asks the user for a full name, then repeatedly displays a menu and
     calls the matching function until the user chooses to quit.
     Args:
@@ -232,12 +244,12 @@ def main():
         None
     """
     name = ""
-    chars = []
+    chars = []  #empty list where list of single characters will be added 
     name = input("Enter your full name (including middle): ")
-    chars = list(name)
+    chars = list(name) #breaks the name into single characters and adds it to a list 
  
 
-    while True:
+    while True:  #while program is running 
         print('''
         1) Reverse name
         2) Count vowels in name
@@ -290,4 +302,3 @@ def main():
  
  
 main()
- 
