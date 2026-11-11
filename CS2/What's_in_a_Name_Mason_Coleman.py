@@ -11,6 +11,7 @@ Log: Initial Creation: 9/10/26
      9/24/26 Finished palindrome checker, middle name, scramble, titles
      9/27/26 Finished intials
      9/30/26 Added full documentation to all functions
+     11/11/26 Release v1.1 Added documentation for single lines of code 
 """
  
 import random
